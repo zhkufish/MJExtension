@@ -156,7 +156,11 @@ static const char MJReferenceReplacedKeyWhenCreatingKeyValuesKey = '\0';
                         NSString *oldValue = value;
                         
                         // NSString -> NSNumber
-                        value = [NSDecimalNumber decimalNumberWithString:oldValue];
+                        //我原来的nsnumber对象都被转成了NSDecimalNumber, 这个会导致我在使用fmdb的时候查不到正常数据,使用NSNumberFormatter可以解决我目前遇到的问题
+                        
+//                        value = [NSDecimalNumber decimalNumberWithString:oldValue];
+                        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+                        value = [formatter numberFromString:oldValue];
                         
                         // 如果是BOOL
                         if (type.isBoolType) {
